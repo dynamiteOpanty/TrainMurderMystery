@@ -51,7 +51,7 @@ public class TrainMurderMystery implements ModInitializer {
 
                 // check hitman win condition (all targets are dead)
                 boolean hitmanWin = true;
-                for (UUID targetUuid : game.getHitmanTargets()) {
+                for (UUID targetUuid : game.getTargets()) {
                     if (!isTargetEliminated(serverWorld, targetUuid)) {
                         hitmanWin = false;
                     }
