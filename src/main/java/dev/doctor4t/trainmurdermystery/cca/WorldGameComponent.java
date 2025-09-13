@@ -1,26 +1,22 @@
 package dev.doctor4t.trainmurdermystery.cca;
 
-import dev.doctor4t.trainmurdermystery.index.TrainMurderMysteryItems;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class WorldGameComponent implements AutoSyncedComponent {
     private final World world;
 
     private boolean running = false;
-    private List<UUID> players = new ArrayList<>();
-    private List<UUID> hitmen = new ArrayList<>();
-    private List<UUID> detectives = new ArrayList<>();
-    private List<UUID> targets = new ArrayList<>();
+    private List<ServerPlayerEntity> players = new ArrayList<>();
+    private List<ServerPlayerEntity> hitmen = new ArrayList<>();
+    private List<ServerPlayerEntity> detectives = new ArrayList<>();
+    private List<ServerPlayerEntity> targets = new ArrayList<>();
 
     public WorldGameComponent(World world) {
         this.world = world;
@@ -39,12 +35,12 @@ public class WorldGameComponent implements AutoSyncedComponent {
         return running;
     }
 
-    public void setPlayers(List<UUID> players) {
+    public void setPlayers(List<ServerPlayerEntity> players) {
         this.players = players;
         this.sync();
     }
 
-    public List<UUID> getPlayers() {
+    public List<ServerPlayerEntity> getPlayers() {
         return players;
     }
 
@@ -52,90 +48,61 @@ public class WorldGameComponent implements AutoSyncedComponent {
         return players.size();
     }
 
-    public List<UUID> getHitmen() {
+    public List<ServerPlayerEntity> getHitmen() {
         return hitmen;
     }
 
-    public void setHitmen(List<UUID> hitmen) {
+    public void addHitman(ServerPlayerEntity hitman) {
+        this.hitmen.add(hitman);
+        this.sync();
+    }
+
+    public void setHitmen(List<ServerPlayerEntity> hitmen) {
         this.hitmen = hitmen;
         this.sync();
     }
 
-    public List<UUID> getDetectives() {
+    public List<ServerPlayerEntity> getDetectives() {
         return detectives;
     }
 
-    public void setDetectives(List<UUID> detectives) {
+    public void addDetective(ServerPlayerEntity detective) {
+        this.detectives.add(detective);
+        this.sync();
+    }
+
+    public void setDetectives(List<ServerPlayerEntity> detectives) {
         this.detectives = detectives;
         this.sync();
     }
 
-    public List<UUID> getTargets() {
+    public List<ServerPlayerEntity> getTargets() {
         return targets;
     }
 
-    public void setTargets(List<UUID> targets) {
+    public void addTarget(ServerPlayerEntity detective) {
+        this.targets.add(detective);
+        this.sync();
+    }
+
+    public void setTargets(List<ServerPlayerEntity> targets) {
         this.targets = targets;
         this.sync();
+    }
+
+    public void resetLists() {
+        setDetectives(new ArrayList<>());
+        setHitmen(new ArrayList<>());
+        setTargets(new ArrayList<>());
     }
 
     @Override
     public void readFromNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
         this.running = nbtCompound.getBoolean("Running");
-
     }
 
     @Override
     public void writeToNbt(NbtCompound nbtCompound, RegistryWrapper.WrapperLookup wrapperLookup) {
         nbtCompound.putBoolean("Running", running);
-
-    }
-
-    public void startGame() {
-        if (world instanceof ServerWorld serverWorld) {
-            TrainMurderMysteryComponents.TRAIN.get(serverWorld).setTrainSpeed(130);
-
-            List<ServerPlayerEntity> playerPool = new ArrayList<>(serverWorld.getPlayers().stream().filter(serverPlayerEntity -> !serverPlayerEntity.isInCreativeMode() && !serverPlayerEntity.isSpectator()).toList());
-
-            // clear items
-            for (ServerPlayerEntity serverPlayerEntity : playerPool) {
-                serverPlayerEntity.getInventory().clear();
-            }
-
-            // select hitmen
-            int hitmanCount = (int) Math.floor(playerPool.size() * .2f);
-            ArrayList<UUID> hitmen = new ArrayList<>();
-            for (int i = 0; i < hitmanCount; i++) {
-                ServerPlayerEntity selectedPlayer = playerPool.get(world.random.nextInt(playerPool.size()));
-                hitmen.add(selectedPlayer.getUuid());
-                selectedPlayer.giveItemStack(new ItemStack(TrainMurderMysteryItems.KNIFE));
-                playerPool.remove(selectedPlayer);
-            }
-            setHitmen(hitmen);
-
-            // select detectives
-            int detectiveCount = hitmanCount;
-            ArrayList<UUID> detectives = new ArrayList<>();
-            for (int i = 0; i < detectiveCount; i++) {
-                ServerPlayerEntity selectedPlayer = playerPool.get(world.random.nextInt(playerPool.size()));
-                detectives.add(selectedPlayer.getUuid());
-                selectedPlayer.giveItemStack(new ItemStack(TrainMurderMysteryItems.REVOLVER));
-                playerPool.remove(selectedPlayer);
-            }
-            setDetectives(detectives);
-
-            // select targets
-            int targetCount = playerPool.size() / 2;
-            ArrayList<UUID> targets = new ArrayList<>();
-            for (int i = 0; i < targetCount; i++) {
-                ServerPlayerEntity selectedPlayer = playerPool.get(world.random.nextInt(playerPool.size()));
-                targets.add(selectedPlayer.getUuid());
-                selectedPlayer.giveItemStack(new ItemStack(TrainMurderMysteryItems.ROOM_KEY));
-                playerPool.remove(selectedPlayer);
-            }
-            setTargets(targets);
-
-            setRunning(true);
-        }
     }
 }

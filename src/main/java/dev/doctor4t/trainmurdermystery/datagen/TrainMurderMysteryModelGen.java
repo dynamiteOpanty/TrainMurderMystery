@@ -6,7 +6,6 @@ import dev.doctor4t.trainmurdermystery.TrainMurderMystery;
 import dev.doctor4t.trainmurdermystery.block.*;
 import dev.doctor4t.trainmurdermystery.block.property.CouchArms;
 import dev.doctor4t.trainmurdermystery.index.TrainMurderMysteryBlocks;
-import dev.doctor4t.trainmurdermystery.index.TrainMurderMysteryItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.*;
@@ -331,8 +330,8 @@ public class TrainMurderMysteryModelGen extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator generator) {
-        generator.register(TrainMurderMysteryItems.POISON_VIAL, Models.GENERATED);
-        generator.register(TrainMurderMysteryItems.SCORPION, Models.GENERATED);
+//        generator.register(TrainMurderMysteryItems.POISON_VIAL, Models.GENERATED);
+//        generator.register(TrainMurderMysteryItems.SCORPION, Models.GENERATED);
     }
 
     private BlockStateVariant variant() {

@@ -9,9 +9,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Mixin(KeyBinding.class)
 public abstract class KeyBindingMixin {
     @Shadow
@@ -21,7 +18,6 @@ public abstract class KeyBindingMixin {
     private boolean shouldSuppressKey() {
         if (TrainMurderMysteryClient.shouldRestrictPlayerOptions()) {
             return this.equals(MinecraftClient.getInstance().options.swapHandsKey) ||
-                    this.equals(MinecraftClient.getInstance().options.dropKey) ||
                     this.equals(MinecraftClient.getInstance().options.chatKey) ||
                     this.equals(MinecraftClient.getInstance().options.commandKey) ||
                     this.equals(MinecraftClient.getInstance().options.jumpKey) ||

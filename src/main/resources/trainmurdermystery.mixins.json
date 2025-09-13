@@ -16,7 +16,6 @@
     "client.BipedEntityModelMixin",
     "client.CameraMixin",
     "client.ChatHudMixin",
-    "client.ClientPlayerEntityMixin",
     "client.ClientWorldMixin",
     "client.CreativeInventoryScreenMixin",
     "client.InGameHudMixin",
