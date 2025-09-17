@@ -5,9 +5,11 @@ import dev.doctor4t.trainmurdermystery.command.SetTrainSpeedCommand;
 import dev.doctor4t.trainmurdermystery.command.StartGameCommand;
 import dev.doctor4t.trainmurdermystery.game.TMMGameLoop;
 import dev.doctor4t.trainmurdermystery.index.*;
+import dev.doctor4t.trainmurdermystery.util.ShootMuzzleS2CPayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,8 @@ public class TMM implements ModInitializer {
 
         // Game loop tick
         ServerTickEvents.START_WORLD_TICK.register(TMMGameLoop::tick);
+
+        PayloadTypeRegistry.playS2C().register(ShootMuzzleS2CPayload.ID, ShootMuzzleS2CPayload.CODEC);
     }
 
 }

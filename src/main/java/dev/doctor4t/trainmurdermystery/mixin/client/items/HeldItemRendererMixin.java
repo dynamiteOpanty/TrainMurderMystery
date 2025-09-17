@@ -1,11 +1,16 @@
 package dev.doctor4t.trainmurdermystery.mixin.client.items;
 
 import dev.doctor4t.trainmurdermystery.client.TMMClient;
+import dev.doctor4t.trainmurdermystery.index.TMMItems;
+import dev.doctor4t.trainmurdermystery.util.MatrixParticleManager;
+import dev.doctor4t.trainmurdermystery.util.MatrixUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,6 +26,14 @@ public class HeldItemRendererMixin {
     private void tmm$itemVFX(LivingEntity entity, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (renderMode.isFirstPerson()) {
             TMMClient.handParticleManager.render(matrices, vertexConsumers, light);
+        }
+
+        if (entity instanceof PlayerEntity playerEntity && stack.isOf(TMMItems.REVOLVER)) {
+            if (playerEntity.getUuid() != MinecraftClient.getInstance().player.getUuid()) {
+                MatrixParticleManager.setMuzzlePosForPlayer(playerEntity, MatrixUtils.matrixToVec(matrices));
+            } else if (!renderMode.isFirstPerson()) {
+                MatrixParticleManager.setMuzzlePosForPlayer(playerEntity, MatrixUtils.matrixToVec(matrices));
+            }
         }
     }
 }
