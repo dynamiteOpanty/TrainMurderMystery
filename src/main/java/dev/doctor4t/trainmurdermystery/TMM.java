@@ -95,7 +95,7 @@ public class TMM implements ModInitializer {
 // TORECORD: - Get some fresh air reduced to going walking outside for 8s
 // TODO: - Change mood down effect from speed to: (to prevent players being able to innocent each other on an easily observable change)
 // TODO:    - Mid mood: Imagining random items in other player's hands (changes every so often) + a little more shake
-// TODO:    - Low mood: Randomly seeing players as psycho + not seeing bodies + even more shake
+// TODO:    - Low mood: Dead bodies disappear after 10s + even more shake
 
 // TORECORD: Fixing the detective
 // TORECORD: New name display system to allow anyone to know player's names

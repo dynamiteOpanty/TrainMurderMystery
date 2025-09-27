@@ -99,7 +99,9 @@ public class InGameHudMixin {
             this.client.getProfiler().push("sleep");
 
             float f = (float) this.client.player.getSleepTimer();
-            float g = f / 30f;
+
+            float g = Math.min(1, f / 30f);
+
             if (f > 100f) {
                 g = 1 - (f - 100f) / 10f;
             }
