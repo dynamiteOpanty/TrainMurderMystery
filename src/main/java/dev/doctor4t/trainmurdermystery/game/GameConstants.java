@@ -62,7 +62,7 @@ public interface GameConstants {
 
     // Task Variables
     float MOOD_GAIN = 0.5f;
-    float MOOD_DRAIN = 1f / getInTicks(5, 0);
+    float MOOD_DRAIN = 1f / getInTicks(4, 0);
     int TIME_TO_FIRST_TASK = getInTicks(0, 30);
     int MIN_TASK_COOLDOWN = getInTicks(0, 30);
     int MAX_TASK_COOLDOWN = getInTicks(1, 0);

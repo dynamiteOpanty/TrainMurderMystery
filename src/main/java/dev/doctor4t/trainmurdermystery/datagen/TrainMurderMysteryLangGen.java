@@ -73,7 +73,7 @@ public class TrainMurderMysteryLangGen extends FabricLanguageProvider {
         builder.add(TextUtils.getItemTranslationKey(TMMItems.CROWBAR) + ".tooltip", "Use on any door to open it permanently\n3 minute cooldown");
         builder.add(TextUtils.getItemTranslationKey(TMMItems.BODY_BAG) + ".tooltip", "Use on a dead body to bag it up and remove it\nSingle use, 5 minute cooldown");
         builder.add(TextUtils.getItemTranslationKey(TMMItems.BLACKOUT) + ".tooltip", "Turn off all lights aboard for up to 12 seconds\nActivated instantly on purchase, 5 minute cooldown");
-        builder.add(TextUtils.getItemTranslationKey(TMMItems.NOTE) + ".tooltip", "Write a message and pin it for others to see\nSneak-use to write a message, then use on a wall or floor to place");
+        builder.add(TextUtils.getItemTranslationKey(TMMItems.NOTE) + ".tooltip", "Write a message and pin it for others to see\nSneak-use to write a message, then use on a wall or floor to place\nInvisible in hand");
 
         builder.add("game.win.killers", "The killers reached their kill count, they win!");
         builder.add("game.win.passengers", "All killers were eliminated: the passengers win!");

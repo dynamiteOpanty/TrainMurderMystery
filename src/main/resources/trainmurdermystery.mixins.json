@@ -20,7 +20,6 @@
     "client.AbstractClientPlayerEntityMixin",
     "client.EntityRendererDispatchMixin",
     "client.GameRendererMixin",
-    "client.LivingEntityMixin",
     "client.MinecraftClientMixin",
     "client.PlayerEntityRendererMixin",
     "client.TrueDarknessLightmapTextureManagerMixin",

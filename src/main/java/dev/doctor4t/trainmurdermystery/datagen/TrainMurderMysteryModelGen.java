@@ -355,7 +355,6 @@ public class TrainMurderMysteryModelGen extends FabricModelProvider {
         generator.register(TMMItems.MARTINI, SMALL_ITEM);
         generator.register(TMMItems.COSMOPOLITAN, SMALL_ITEM);
         generator.register(TMMItems.CHAMPAGNE, SMALL_ITEM);
-        generator.register(TMMItems.NOTE, SMALL_ITEM);
         generator.register(TMMItems.GRENADE, SMALL_ITEM);
         generator.register(TMMItems.THROWN_GRENADE, SMALL_ITEM);
         generator.register(TMMItems.FIRECRACKER, SMALL_ITEM);
