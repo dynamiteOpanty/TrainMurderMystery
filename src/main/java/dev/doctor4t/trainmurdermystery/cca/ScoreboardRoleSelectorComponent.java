@@ -24,6 +24,8 @@ public class ScoreboardRoleSelectorComponent implements AutoSyncedComponent {
     public final MinecraftServer server;
     public final Map<UUID, Integer> killerRounds = new HashMap<>();
     public final Map<UUID, Integer> vigilanteRounds = new HashMap<>();
+    public final List<UUID> forcedKillers = new ArrayList<>();
+    public final List<UUID> forcedVigilantes = new ArrayList<>();
 
     public ScoreboardRoleSelectorComponent(Scoreboard scoreboard, @Nullable MinecraftServer server) {
         this.scoreboard = scoreboard;
@@ -39,6 +41,14 @@ public class ScoreboardRoleSelectorComponent implements AutoSyncedComponent {
 
     public void assignKillers(ServerWorld world, GameWorldComponent gameComponent, @NotNull List<ServerPlayerEntity> players, int killerCount) {
         this.reduceKillers();
+        for (var uuid : this.forcedKillers) {
+            var player = world.getPlayerByUuid(uuid);
+            if (player instanceof ServerPlayerEntity serverPlayer && players.contains(serverPlayer)) {
+                gameComponent.addKiller(uuid);
+                killerCount--;
+                this.killerRounds.put(player.getUuid(), this.killerRounds.getOrDefault(player.getUuid(), 1) + 1);
+            }
+        }
         var map = new HashMap<ServerPlayerEntity, Float>();
         var total = 0f;
         for (var player : players) {
@@ -70,8 +80,17 @@ public class ScoreboardRoleSelectorComponent implements AutoSyncedComponent {
         for (var times : this.killerRounds.keySet()) this.killerRounds.put(times, this.killerRounds.get(times) - minimum);
     }
 
-    public void assignVigilantes(ServerWorld world, GameWorldComponent gameComponent, @NotNull List<ServerPlayerEntity> players, int killerCount) {
+    public void assignVigilantes(ServerWorld world, GameWorldComponent gameComponent, @NotNull List<ServerPlayerEntity> players, int vigilanteCount) {
         this.reduceVigilantes();
+        for (var uuid : this.forcedVigilantes) {
+            var player = world.getPlayerByUuid(uuid);
+            if (player instanceof ServerPlayerEntity serverPlayer && players.contains(serverPlayer) && !gameComponent.isKiller(serverPlayer)) {
+                serverPlayer.giveItemStack(new ItemStack(TMMItems.REVOLVER));
+                gameComponent.addVigilante(uuid);
+                vigilanteCount--;
+                this.vigilanteRounds.put(player.getUuid(), this.vigilanteRounds.getOrDefault(player.getUuid(), 1) + 1);
+            }
+        }
         var map = new HashMap<ServerPlayerEntity, Float>();
         var total = 0f;
         for (var player : players) {
@@ -81,7 +100,7 @@ public class ScoreboardRoleSelectorComponent implements AutoSyncedComponent {
             total += weight;
         }
         var vigilantes = new ArrayList<ServerPlayerEntity>();
-        for (var i = 0; i < killerCount; i++) {
+        for (var i = 0; i < vigilanteCount; i++) {
             var random = world.getRandom().nextFloat() * total;
             for (var entry : map.entrySet()) {
                 random -= entry.getValue();
