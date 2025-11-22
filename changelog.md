@@ -4,6 +4,9 @@ The Last Voyage of the Harpy Express 1.1.2 - 1.21.1
 - Added a client config option to disable screen shake
   - Removed the /tmm:setVisual screenshake option as a result
 - Disabled inventory while the game is fading in or out
+- Added a collection of new events designed to make it easier for addons to implement custom role abilities, and to help prevent conflicts when multiple addons are installed, thanks to PunIsIntendeds 🐀❤️
+- Added Portuguese language support, thanks to GabrielFl4 🐀❤️
+- Added Russian language support, thanks to ktnlvr 🐀❤️
 
 ------------------------------------------------------
 The Last Voyage of the Harpy Express 1.1.1 - 1.21.1
